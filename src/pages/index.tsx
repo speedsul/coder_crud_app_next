@@ -5,16 +5,20 @@ import LayOut from '../components/Layout'
 import Cliente from '../core/Cliente'
 import Botao from '../components/Botao'
 import Formulario from '../components/Formulario'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import ClienteRepositorio from '../core/ClienteRepositorio'
 
 const Home: NextPage = () => { 
-  const clientes = [
-    new Cliente('Ismael', 35, '1'),
-    new Cliente('Jaqueline', 28, '2'),
-    new Cliente('Jocemar', 55, '3'),
-  ]
+
+  const repo: ClienteRepositorio = new ColecaoCliente()
+
   const [cliente, setCliente] = useState<Cliente>(Cliente.vazio)
+  const [clientes, setClientes] = useState<Cliente>([])
   const [visivel, setVisivel] = useState<'tabela' | 'formulario'>('tabela')
+
+  useEffect(() => {
+    repo.obterTodos().then(setClientes)
+  }, [])
  
 
   const clienteSelecionado = (cliente: Cliente) => {

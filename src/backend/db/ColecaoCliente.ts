@@ -25,13 +25,14 @@ export default class ColecaoCliente implements ClienteRepositorio {
           const doc = await docRef.get()
           return doc.data()
         }
-       return null
+       
    }
    async excluir(cliente: Cliente): Promise<void>{
-       return this.colecao().doc(client.id).delete
+       return this.colecao().doc(cliente.id).delete()
    }
    async obterTodos(): Promise<Cliente[]>{
-       return null
+       const query = await this.colecao().get()
+       return query.docs.map(doc=> doc.data()) ?? []
    }
    private colecao() {
        return firebase.firestore()
